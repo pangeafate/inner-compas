@@ -55,9 +55,12 @@
             color: white;
             font-weight: 600;
             text-align: center;
-            padding: 10px;
-            font-size: 0.9rem;
+            padding: 8px;
+            font-size: clamp(0.6rem, 2vw, 0.9rem); /* Responsive font size */
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .card-back {
@@ -82,6 +85,7 @@
             min-height: 450px; /* Increased minimum height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.4s ease;
+            max-width: 90%; /* Ensure it doesn't exceed 90% of viewport width */
         }
         
         .card.flipped .card-front {
@@ -215,8 +219,7 @@
             }
             
             .card-front {
-                font-size: 0.7rem; /* Smaller font size for better fit */
-                padding: 5px;
+                padding: 4px;
             }
             
             .buttons-container {
@@ -229,13 +232,15 @@
                 width: 100%;
                 max-width: 250px;
             }
-            
+        }
+        
+        /* iPhone-specific styles */
+        @media screen and (max-width: 480px) {
             .card.flipped {
-                width: 85%;
-                max-width: 300px;
-                margin: 0 auto;
-                left: 50% !important; /* Force center alignment */
-                right: auto !important;
+                width: 85% !important;
+                max-width: 280px !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
             }
         }
     </style>
