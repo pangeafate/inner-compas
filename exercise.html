@@ -16,12 +16,11 @@
         }
         
         .exercise-instructions {
-            text-align: center;
+            text-align: left;
             color: var(--light-text);
             margin-bottom: 1.5rem;
             max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 0.9rem;
         }
         
         .cards-container {
@@ -89,7 +88,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
-            width: min(300px, 85vw); /* Adaptive width based on viewport */
+            width: min(200px, 85vw); /* Adaptive width based on viewport with smaller min size */
             height: auto;
             min-height: 450px; /* Increased minimum height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
