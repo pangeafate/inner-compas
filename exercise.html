@@ -88,7 +88,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
-            width: min(200px, 85vw); /* Adaptive width based on viewport with smaller min size */
+            width: min(180px, 70vw); /* Narrower adaptive width */
             height: auto;
             min-height: 450px; /* Increased minimum height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -238,6 +238,10 @@
             .btn {
                 width: 100%;
                 max-width: 250px;
+            }
+            
+            .card.flipped {
+                width: min(160px, 65vw); /* Even narrower on mobile */
             }
         }
         
