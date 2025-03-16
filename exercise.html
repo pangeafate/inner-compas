@@ -248,14 +248,22 @@
         /* iPhone-specific styles */
         @media screen and (max-width: 480px) {
             .card.flipped {
-                width: calc(100% - 40px); /* Responsive width for phones with 20px margin on each side */
+                top: 50%;
+                left: 20px;
+                right: 20px;
+                width: auto;
+                transform: translateY(-50%);
             }
         }
         
         /* Extra small devices */
         @media screen and (max-width: 360px) {
             .card.flipped {
-                width: calc(100% - 40px); /* Responsive width for very small phones */
+                top: 50%;
+                left: 20px;
+                right: 20px;
+                width: auto;
+                transform: translateY(-50%);
             }
         }
         
