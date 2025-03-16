@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check which page we're on based on the URL
     const currentPath = window.location.pathname;
     
-    if (currentPath.includes('exercise.html')) {
+    if (currentPath.includes('exercise2.html')) {
+        initExercise2Page();
+    } else if (currentPath.includes('exercise.html')) {
         initExercisePage();
     } else if (currentPath.includes('values.html')) {
         initValuesPage();
@@ -64,9 +66,48 @@ function initExercisePage() {
     const cardsContainer = document.getElementById('cards-container');
     const purposeBtn = document.getElementById('purpose-btn');
     const resetBtn = document.getElementById('reset-btn');
+    const stage2Btn = document.getElementById('stage2-btn');
     const valuesBtn = document.getElementById('values-btn');
     
     // Set up navigation buttons
+    purposeBtn.addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+    
+    resetBtn.addEventListener('click', () => {
+        clearSavedValues();
+        // Reload the page to reset the grid
+        window.location.reload();
+    });
+    
+    stage2Btn.addEventListener('click', () => {
+        window.location.href = 'exercise2.html';
+    });
+    
+    valuesBtn.addEventListener('click', () => {
+        window.location.href = 'values.html';
+    });
+    
+    // Create and render the cards grid
+    createCardsGrid();
+}
+
+// Initialize the Exercise Stage 2 page
+function initExercise2Page() {
+    console.log('Exercise Stage 2 page initialized');
+    
+    // Get DOM elements
+    const cardsContainer = document.getElementById('cards-container');
+    const stage1Btn = document.getElementById('stage1-btn');
+    const purposeBtn = document.getElementById('purpose-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const valuesBtn = document.getElementById('values-btn');
+    
+    // Set up navigation buttons
+    stage1Btn.addEventListener('click', () => {
+        window.location.href = 'exercise.html';
+    });
+    
     purposeBtn.addEventListener('click', () => {
         window.location.href = 'index.html';
     });
@@ -81,8 +122,8 @@ function initExercisePage() {
         window.location.href = 'values.html';
     });
     
-    // Create and render the cards grid
-    createCardsGrid();
+    // Create and render the saved cards grid
+    createSavedCardsGrid();
 }
 
 // Initialize the Values page
@@ -365,6 +406,39 @@ function renderSavedValuesByCategory() {
         categoryContainer.appendChild(categoryHeader);
         categoryContainer.appendChild(valuesList);
         valuesContainer.appendChild(categoryContainer);
+    });
+}
+
+// Create the grid of cards for the Exercise Stage 2 page (only saved values)
+function createSavedCardsGrid() {
+    const cardsContainer = document.getElementById('cards-container');
+    const allValues = getAllValues();
+    const savedValues = getSavedValues();
+    
+    // Clear the container
+    cardsContainer.innerHTML = '';
+    
+    // Check if there are any saved values
+    if (savedValues.length === 0) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'empty-values-message';
+        emptyMessage.textContent = 'You haven\'t saved any values yet. Go to Stage 1 to discover and save your values.';
+        emptyMessage.style.textAlign = 'center';
+        emptyMessage.style.padding = '2rem';
+        emptyMessage.style.color = 'var(--light-text)';
+        cardsContainer.appendChild(emptyMessage);
+        return;
+    }
+    
+    // Find the saved value objects from allValues
+    const savedValueObjects = allValues.filter(value => 
+        savedValues.some(saved => saved.id === value.id)
+    );
+    
+    // Create cards and add them to the container
+    savedValueObjects.forEach(value => {
+        const card = createCard(value);
+        cardsContainer.appendChild(card);
     });
 }
 

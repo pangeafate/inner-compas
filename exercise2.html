@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inner Compass - Exercise</title>
+    <title>Inner Compass - Exercise Stage 2</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -309,24 +309,21 @@
 <body>
     <div class="container exercise-page">
         <h1>Your Inner Compass</h1>
-        <h2>Discover Your Values</h2>
-        <p class="exercise-instructions">Please select the values that resonate with you, the values color corresponds to the category they belong to.</p>
+        <h2>Stage 2: Review Your Selected Values</h2>
+        <p class="exercise-instructions">These are the values you've selected. You can still make changes by keeping or discarding values.</p>
         
         <div id="cards-container" class="cards-container">
             <!-- Cards will be dynamically generated here -->
         </div>
         
         <div class="buttons-container">
+            <button id="stage1-btn" class="btn secondary-btn">To Stage 1</button>
             <button id="purpose-btn" class="btn secondary-btn">Purpose</button>
             <button id="reset-btn" class="btn secondary-btn">Reset Values</button>
-            <button id="stage2-btn" class="btn secondary-btn">To Stage 2</button>
             <button id="values-btn" class="btn primary-btn">Your Values</button>
         </div>
     </div>
     
-    <!-- Use regular script tags instead of modules -->
-    <script src="js/data-nonmodule.js"></script>
-    <script src="js/storage-nonmodule.js"></script>
-    <script src="js/app-nonmodule.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
