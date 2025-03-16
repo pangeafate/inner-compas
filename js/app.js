@@ -434,6 +434,22 @@ function createSavedCardsGrid() {
         return;
     }
     
+    // Add discard counter
+    const discardCounter = document.createElement('div');
+    discardCounter.id = 'discard-counter';
+    discardCounter.style.textAlign = 'center';
+    discardCounter.style.padding = '1rem';
+    discardCounter.style.marginBottom = '1rem';
+    discardCounter.style.fontSize = '1.2rem';
+    discardCounter.style.fontWeight = 'bold';
+    discardCounter.style.color = savedValues.length > 5 ? '#e74c3c' : '#2ecc71';
+    
+    const needToDiscard = Math.max(0, savedValues.length - 5);
+    discardCounter.textContent = `Need to discard ${needToDiscard} values`;
+    
+    // Insert counter before the cards container
+    cardsContainer.parentNode.insertBefore(discardCounter, cardsContainer);
+    
     // Find the saved value objects from allValues
     const savedValueObjects = allValues.filter(value => 
         savedValues.some(saved => saved.id === value.id)
@@ -441,9 +457,193 @@ function createSavedCardsGrid() {
     
     // Create cards and add them to the container
     savedValueObjects.forEach(value => {
-        const card = createCard(value);
+        const card = createCardForStage2(value);
         cardsContainer.appendChild(card);
     });
+}
+
+// Create a card for Stage 2 with original category colors and gray for discarded
+function createCardForStage2(value) {
+    const savedValues = getSavedValues();
+    const isSaved = savedValues.some(saved => saved.id === value.id);
+    
+    // Create card elements
+    const card = document.createElement('div');
+    card.className = `card ${isSaved ? 'saved' : 'discarded'}`;
+    card.dataset.id = value.id;
+    card.dataset.categoryId = value.categoryId;
+    
+    // Front of the card
+    const cardFront = document.createElement('div');
+    cardFront.className = 'card-front';
+    cardFront.style.backgroundColor = isSaved ? value.categoryColor : '#aaaaaa'; // Original color or gray if discarded
+    cardFront.textContent = value.name;
+    
+    // Back of the card
+    const cardBack = document.createElement('div');
+    cardBack.className = 'card-back';
+    
+    const categoryName = document.createElement('div');
+    categoryName.className = 'card-category';
+    categoryName.textContent = value.categoryName;
+    categoryName.style.backgroundColor = value.categoryColor;
+    
+    const valueName = document.createElement('div');
+    valueName.className = 'card-value-name';
+    valueName.textContent = value.name;
+    
+    const valueDescription = document.createElement('div');
+    valueDescription.className = 'card-description';
+    valueDescription.textContent = value.description;
+    
+    // Create action buttons
+    const cardActions = document.createElement('div');
+    cardActions.className = 'card-actions';
+    
+    const keepBtn = document.createElement('button');
+    keepBtn.className = 'card-btn keep-btn';
+    keepBtn.textContent = 'Keep';
+    
+    const discardBtn = document.createElement('button');
+    discardBtn.className = 'card-btn discard-btn';
+    discardBtn.textContent = 'Discard';
+    
+    cardActions.appendChild(keepBtn);
+    cardActions.appendChild(discardBtn);
+    
+    // Assemble the card
+    cardBack.appendChild(categoryName);
+    cardBack.appendChild(valueName);
+    cardBack.appendChild(valueDescription);
+    cardBack.appendChild(cardActions);
+    
+    card.appendChild(cardFront);
+    card.appendChild(cardBack);
+    
+    // Add event listeners for card interactions
+    let isFlipped = false;
+    let overlay;
+    
+    // Create overlay for when card is flipped
+    function createOverlay() {
+        overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        document.body.appendChild(overlay);
+        
+        // Force reflow to ensure transition works
+        overlay.offsetHeight;
+        
+        // Add active class to trigger fade in
+        overlay.classList.add('active');
+        
+        // Click on overlay to close card
+        overlay.addEventListener('click', () => {
+            closeCard();
+        });
+    }
+    
+    // Function to close the flipped card
+    function closeCard() {
+        if (isFlipped) {
+            card.classList.remove('flipped');
+            isFlipped = false;
+            
+            // Reset any inline styles that might affect positioning
+            card.style.transform = '';
+            card.style.position = '';
+            card.style.zIndex = '';
+            
+            // Remove overlay with animation
+            if (overlay) {
+                overlay.classList.remove('active');
+                
+                // Wait for transition to complete before removing from DOM
+                setTimeout(() => {
+                    if (overlay && overlay.parentNode) {
+                        document.body.removeChild(overlay);
+                        overlay = null;
+                    }
+                }, 300);
+            }
+        }
+    }
+    
+    // Click to flip the card
+    card.addEventListener('click', (e) => {
+        if (!isFlipped && e.target !== keepBtn && e.target !== discardBtn) {
+            // Create overlay
+            createOverlay();
+            
+            // Flip the card
+            card.classList.add('flipped');
+            isFlipped = true;
+            
+            // Prevent event from bubbling to overlay
+            e.stopPropagation();
+        }
+    });
+    
+    // Keep button click handler
+    keepBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event from bubbling
+        
+        // Save the value
+        saveValue(value);
+        card.classList.add('saved');
+        card.classList.remove('discarded');
+        
+        // Change the card front color to category color
+        cardFront.style.backgroundColor = value.categoryColor;
+        
+        // Update the discard counter
+        updateDiscardCounter();
+        
+        // Close the card
+        setTimeout(() => {
+            closeCard();
+        }, 200);
+    });
+    
+    // Discard button click handler
+    discardBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event from bubbling
+        
+        // Remove the value
+        removeValue(value.id);
+        card.classList.remove('saved');
+        card.classList.add('discarded');
+        
+        // Change the card front color to gray
+        cardFront.style.backgroundColor = '#aaaaaa';
+        
+        // Update the discard counter
+        updateDiscardCounter();
+        
+        // Close the card
+        setTimeout(() => {
+            closeCard();
+        }, 200);
+    });
+    
+    // Press Escape key to close card
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isFlipped) {
+            closeCard();
+        }
+    });
+    
+    return card;
+}
+
+// Update the discard counter
+function updateDiscardCounter() {
+    const discardCounter = document.getElementById('discard-counter');
+    if (discardCounter) {
+        const savedValues = getSavedValues();
+        const needToDiscard = Math.max(0, savedValues.length - 5);
+        discardCounter.textContent = `Need to discard ${needToDiscard} values`;
+        discardCounter.style.color = savedValues.length > 5 ? '#e74c3c' : '#2ecc71';
+    }
 }
 
 // Utility function to shuffle an array (Fisher-Yates algorithm)
