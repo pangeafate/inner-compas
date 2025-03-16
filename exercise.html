@@ -57,7 +57,6 @@
             text-align: center;
             padding: 10px;
             font-size: 0.9rem;
-            word-break: break-word;
             overflow: hidden;
         }
         
@@ -216,7 +215,7 @@
             }
             
             .card-front {
-                font-size: 0.8rem;
+                font-size: 0.7rem; /* Smaller font size for better fit */
                 padding: 5px;
             }
             
@@ -232,9 +231,11 @@
             }
             
             .card.flipped {
-                width: 90%;
+                width: 85%;
                 max-width: 300px;
                 margin: 0 auto;
+                left: 50% !important; /* Force center alignment */
+                right: auto !important;
             }
         }
     </style>
