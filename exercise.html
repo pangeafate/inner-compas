@@ -15,6 +15,15 @@
             padding: 1rem;
         }
         
+        .exercise-instructions {
+            text-align: center;
+            color: var(--light-text);
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         .cards-container {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
@@ -80,12 +89,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
-            width: 300px;
+            width: min(300px, 85vw); /* Adaptive width based on viewport */
             height: auto;
             min-height: 450px; /* Increased minimum height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.4s ease;
-            max-width: 90%; /* Ensure it doesn't exceed 90% of viewport width */
         }
         
         .card.flipped .card-front {
@@ -234,21 +242,13 @@
             }
         }
         
-        /* iPhone-specific styles */
-        @media screen and (max-width: 480px) {
-            .card.flipped {
-                width: 85% !important;
-                max-width: 280px !important;
-                left: 50% !important;
-                transform: translate(-50%, -50%) !important;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container exercise-page">
         <h1>Your Inner Compass</h1>
         <h2>Discover Your Values</h2>
+        <p class="exercise-instructions">Please select the values that resonate with you, the values color corresponds to the category they belong to.</p>
         
         <div id="cards-container" class="cards-container">
             <!-- Cards will be dynamically generated here -->
