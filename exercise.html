@@ -250,32 +250,32 @@
             .card.flipped {
                 position: fixed;
                 top: 50%;
-                left: 20px;
-                width: calc(100% - 40px); /* Ensures a 20px gap on each side */
-                transform: translateY(-50%);
-                margin: 0;
+                left: 0;
+                right: 0;
+                width: 80%;
+                max-width: 300px;
+                transform: translate(-50%, -50%);
+                margin: 0 auto;
+                left: 50%;
             }
             
-            .card.flipped .card-back {
+            .card.flipped .card-back,
+            .card.flipped .card-front,
+            .card.flipped .card-actions {
                 width: 100%;
                 box-sizing: border-box;
+            }
+            
+            .card-actions {
+                width: calc(100% - 40px) !important;
             }
         }
         
         /* Extra small devices */
         @media screen and (max-width: 360px) {
             .card.flipped {
-                position: fixed;
-                top: 50%;
-                left: 20px;
-                width: calc(100% - 40px); /* Ensures a 20px gap on each side */
-                transform: translateY(-50%);
-                margin: 0;
-            }
-            
-            .card.flipped .card-back {
-                width: 100%;
-                box-sizing: border-box;
+                width: 85%;
+                max-width: 280px;
             }
         }
         
