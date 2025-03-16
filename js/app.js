@@ -442,7 +442,7 @@ function createSavedCardsGrid() {
     discardCounter.style.marginBottom = '1rem';
     discardCounter.style.fontSize = '1.2rem';
     discardCounter.style.fontWeight = 'bold';
-    discardCounter.style.color = savedValues.length > 5 ? '#e74c3c' : '#2ecc71';
+    discardCounter.style.color = savedValues.length > 5 ? '#ff0000' : '#00cc00';
     
     const needToDiscard = Math.max(0, savedValues.length - 5);
     discardCounter.textContent = `Need to discard ${needToDiscard} values`;
@@ -642,7 +642,7 @@ function updateDiscardCounter() {
         const savedValues = getSavedValues();
         const needToDiscard = Math.max(0, savedValues.length - 5);
         discardCounter.textContent = `Need to discard ${needToDiscard} values`;
-        discardCounter.style.color = savedValues.length > 5 ? '#e74c3c' : '#2ecc71';
+        discardCounter.style.color = savedValues.length > 5 ? '#ff0000' : '#00cc00';
     }
 }
 
