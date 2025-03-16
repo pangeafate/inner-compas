@@ -248,22 +248,38 @@
         /* iPhone-specific styles */
         @media screen and (max-width: 480px) {
             .card.flipped {
+                position: fixed;
                 top: 50%;
                 left: 20px;
                 right: 20px;
                 width: auto;
+                max-width: none;
                 transform: translateY(-50%);
+                margin: 0;
+            }
+            
+            .card.flipped .card-back {
+                width: 100%;
+                box-sizing: border-box;
             }
         }
         
         /* Extra small devices */
         @media screen and (max-width: 360px) {
             .card.flipped {
+                position: fixed;
                 top: 50%;
                 left: 20px;
                 right: 20px;
                 width: auto;
+                max-width: none;
                 transform: translateY(-50%);
+                margin: 0;
+            }
+            
+            .card.flipped .card-back {
+                width: 100%;
+                box-sizing: border-box;
             }
         }
         
