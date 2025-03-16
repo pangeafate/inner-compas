@@ -248,14 +248,14 @@
         /* iPhone-specific styles */
         @media screen and (max-width: 480px) {
             .card.flipped {
-                width: 260px; /* Fixed width for phones */
+                width: calc(100% - 40px); /* Responsive width for phones with 20px margin on each side */
             }
         }
         
         /* Extra small devices */
         @media screen and (max-width: 360px) {
             .card.flipped {
-                width: 220px; /* Even smaller for very small phones */
+                width: calc(100% - 40px); /* Responsive width for very small phones */
             }
         }
         
