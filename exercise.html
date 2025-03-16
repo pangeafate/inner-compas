@@ -250,32 +250,27 @@
             .card.flipped {
                 position: fixed;
                 top: 50%;
-                left: 0;
-                right: 0;
-                width: 80%;
-                max-width: 300px;
-                transform: translate(-50%, -50%);
-                margin: 0 auto;
                 left: 50%;
+                width: 90vw; /* 90% of viewport width */
+                max-width: 280px;
+                transform: translate(-50%, -50%);
+                margin: 0;
             }
             
-            .card.flipped .card-back,
-            .card.flipped .card-front,
-            .card.flipped .card-actions {
+            .card.flipped .card-back {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 15px;
+            }
+            
+            .card.flipped .card-front {
                 width: 100%;
                 box-sizing: border-box;
             }
             
             .card-actions {
-                width: calc(100% - 40px) !important;
-            }
-        }
-        
-        /* Extra small devices */
-        @media screen and (max-width: 360px) {
-            .card.flipped {
-                width: 85%;
-                max-width: 280px;
+                width: calc(100% - 30px) !important;
+                left: 15px;
             }
         }
         
