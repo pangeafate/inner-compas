@@ -88,7 +88,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
-            width: min(180px, 70vw); /* Narrower adaptive width */
+            width: 90%; /* Base width as percentage of container */
+            max-width: 300px; /* Maximum width on larger screens */
             height: auto;
             min-height: 450px; /* Increased minimum height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -241,7 +242,16 @@
             }
             
             .card.flipped {
-                width: min(160px, 65vw); /* Even narrower on mobile */
+                width: 80%; /* Slightly narrower on tablets */
+                max-width: 280px;
+            }
+        }
+        
+        /* iPhone-specific styles */
+        @media screen and (max-width: 480px) {
+            .card.flipped {
+                width: 75%; /* Even narrower on phones */
+                max-width: 250px;
             }
         }
         
