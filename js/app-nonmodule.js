@@ -1,7 +1,3 @@
-// Import data from data.js
-import { valuesData, getAllValues } from './data.js';
-import { saveValue, removeValue, getSavedValues, clearSavedValues } from './storage.js';
-
 // Constants
 const TOTAL_VALUES = 30; // Total number of values to select
 
@@ -130,7 +126,7 @@ function createCardsGrid() {
     });
 }
 
-    // Create a single card element
+// Create a single card element
 function createCard(value) {
     const savedValues = getSavedValues();
     const isSaved = savedValues.some(saved => saved.id === value.id);
