@@ -64,11 +64,13 @@
             font-weight: 600;
             text-align: center;
             padding: 8px;
-            font-size: clamp(0.6rem, 2vw, 0.9rem); /* Responsive font size */
+            font-size: clamp(0.8rem, 2.5vw, 1.2rem); /* Increased responsive font size */
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            word-break: break-word; /* Allow words to break if needed */
+            hyphens: auto; /* Add hyphens for better word breaking */
         }
         
         .card-back {

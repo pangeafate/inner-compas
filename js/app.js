@@ -6,6 +6,21 @@ import { saveValue, removeValue, getSavedValues, clearSavedValues } from './stor
 const TOTAL_VALUES = 30; // Total number of values to select
 
 /**
+ * Adjust font size based on text length
+ * @param {HTMLElement} element - The element to adjust font size for
+ * @param {string} text - The text content
+ */
+function adjustFontSizeForText(element, text) {
+    // Base font size is set in CSS with clamp()
+    // This function adds additional scaling for very long text
+    if (text.length > 12) {
+        // For longer text, scale down font size further
+        const scaleFactor = Math.max(0.7, 1 - (text.length - 12) * 0.03);
+        element.style.fontSize = `calc(clamp(0.8rem, 2.5vw, 1.2rem) * ${scaleFactor})`;
+    }
+}
+
+/**
  * Show a notification with the number of saved values
  */
 function showSaveNotification() {
@@ -187,6 +202,9 @@ function createCard(value) {
     cardFront.className = 'card-front';
     cardFront.style.backgroundColor = isSaved ? '#ffb302' : value.categoryColor;
     cardFront.textContent = value.name;
+    
+    // Adjust font size based on text length
+    adjustFontSizeForText(cardFront, value.name);
     
     // Back of the card
     const cardBack = document.createElement('div');
@@ -478,6 +496,9 @@ function createCardForStage2(value) {
     cardFront.className = 'card-front';
     cardFront.style.backgroundColor = isSaved ? value.categoryColor : '#aaaaaa'; // Original color or gray if discarded
     cardFront.textContent = value.name;
+    
+    // Adjust font size based on text length
+    adjustFontSizeForText(cardFront, value.name);
     
     // Back of the card
     const cardBack = document.createElement('div');
