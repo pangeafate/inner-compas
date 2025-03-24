@@ -82,6 +82,28 @@
             opacity: 1;
         }
         
+        /* Selected Values Notification */
+        .selected-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(74, 111, 165, 0.3); /* Semi-transparent primary color */
+            font-size: 8rem;
+            font-weight: bold;
+            z-index: 1999;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .selected-notification.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        
         /* Discarded Card Styles */
         .card.discarded .card-front {
             background-color: #aaaaaa !important;

@@ -73,6 +73,41 @@ function showDiscardNotification() {
 }
 
 /**
+ * Show a notification with the number of selected values
+ */
+function showSelectedNotification() {
+    const savedValues = getSavedValues();
+    const savedCount = savedValues.length;
+    const TARGET = 30; // Target number of selected values
+    
+    // Create notification element if it doesn't exist
+    let notification = document.querySelector('.selected-notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.className = 'selected-notification';
+        document.body.appendChild(notification);
+    }
+    
+    // Set the notification text
+    notification.textContent = `${savedCount} out of ${TARGET} selected`;
+    
+    // Show the notification
+    notification.classList.add('show');
+    
+    // Hide the notification after 1.5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        
+        // Remove the element after the fade-out transition
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 500);
+    }, 1500);
+}
+
+/**
  * Update the discard counter on the exercise page
  */
 function updateDiscardCounter() {
@@ -388,6 +423,9 @@ function createCard(value) {
         // Update the discard counter
         updateDiscardCounter();
         
+        // Show the selected values notification
+        showSelectedNotification();
+        
         // Close the card
         setTimeout(() => {
             closeCard();
@@ -684,6 +722,9 @@ function createCardForStage2(value) {
         
         // Update the discard counter
         updateDiscardCounter();
+        
+        // Show the selected values notification
+        showSelectedNotification();
         
         // Close the card
         setTimeout(() => {
