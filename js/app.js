@@ -1,6 +1,15 @@
 // Import data from data.js
 import { valuesData, getAllValues } from './data.js';
-import { saveValue, removeValue, getSavedValues, clearSavedValues } from './storage.js';
+import { 
+    saveValue, 
+    removeValue, 
+    getSavedValues, 
+    clearSavedValues,
+    discardValue,
+    getDiscardedValues,
+    clearDiscardedValues,
+    resetAllValues
+} from './storage.js';
 
 // Constants
 const TOTAL_VALUES = 100; // Total number of values to select
@@ -25,10 +34,8 @@ function adjustFontSizeForText(element, text) {
  * Show a notification with the number of discarded values
  */
 function showDiscardNotification() {
-    const savedValues = getSavedValues();
-    // Calculate discarded count based on saved values
-    // If no values have been saved yet, assume 0 discarded
-    const discardedCount = savedValues.length > 0 ? getAllValues().length - savedValues.length : 0;
+    const discardedValues = getDiscardedValues();
+    const discardedCount = discardedValues.length;
     
     // Create notification element if it doesn't exist
     let notification = document.querySelector('.save-notification');
@@ -71,10 +78,8 @@ function showDiscardNotification() {
 function updateDiscardCounter() {
     const discardCounter = document.getElementById('discard-counter');
     if (discardCounter) {
-        const savedValues = getSavedValues();
-        // Calculate discarded count based on saved values
-        // If no values have been saved yet, assume 0 discarded
-        const discardedCount = savedValues.length > 0 ? getAllValues().length - savedValues.length : 0;
+        const discardedValues = getDiscardedValues();
+        const discardedCount = discardedValues.length;
         
         discardCounter.textContent = `${discardedCount} out of ${DISCARD_TARGET}`;
         
@@ -147,7 +152,7 @@ function initExercisePage() {
     });
     
     resetBtn.addEventListener('click', () => {
-        clearSavedValues();
+        resetAllValues(); // Clear both saved and discarded values
         // Reload the page to reset the grid
         window.location.reload();
     });
@@ -188,7 +193,7 @@ function initExercise2Page() {
     });
     
     resetBtn.addEventListener('click', () => {
-        clearSavedValues();
+        resetAllValues(); // Clear both saved and discarded values
         // Reload the page to reset the grid
         window.location.reload();
     });
@@ -245,8 +250,9 @@ function createCardsGrid() {
 // Create a single card element
 function createCard(value) {
     const savedValues = getSavedValues();
+    const discardedValues = getDiscardedValues();
     const isSaved = savedValues.some(saved => saved.id === value.id);
-    const isDiscarded = !isSaved && savedValues.length > 0; // Only mark as discarded if explicitly discarded
+    const isDiscarded = discardedValues.some(discarded => discarded.id === value.id);
     
     // Create card elements
     const card = document.createElement('div');
@@ -392,8 +398,9 @@ function createCard(value) {
     discardBtn.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent event from bubbling
         
-        // Remove the value
+        // Remove the value from saved and add to discarded
         removeValue(value.id);
+        discardValue(value);
         card.classList.remove('saved');
         card.classList.add('discarded');
         
@@ -540,7 +547,9 @@ function createSavedCardsGrid() {
 // Create a card for Stage 2 with original category colors and gray for discarded
 function createCardForStage2(value) {
     const savedValues = getSavedValues();
+    const discardedValues = getDiscardedValues();
     const isSaved = savedValues.some(saved => saved.id === value.id);
+    const isDiscarded = discardedValues.some(discarded => discarded.id === value.id);
     
     // Create card elements
     const card = document.createElement('div');
@@ -686,8 +695,9 @@ function createCardForStage2(value) {
     discardBtn.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent event from bubbling
         
-        // Remove the value
+        // Remove the value from saved and add to discarded
         removeValue(value.id);
+        discardValue(value);
         card.classList.remove('saved');
         card.classList.add('discarded');
         

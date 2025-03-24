@@ -1,5 +1,6 @@
-// Local storage key for saved values
-const STORAGE_KEY = 'innerCompass_savedValues';
+// Local storage keys
+const SAVED_VALUES_KEY = 'innerCompass_savedValues';
+const DISCARDED_VALUES_KEY = 'innerCompass_discardedValues';
 
 /**
  * Save a value to localStorage
@@ -11,18 +12,28 @@ function saveValue(value) {
     // Check if the value is already saved
     if (!savedValues.some(saved => saved.id === value.id)) {
         savedValues.push(value);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(savedValues));
+        localStorage.setItem(SAVED_VALUES_KEY, JSON.stringify(savedValues));
     }
+    
+    // Remove from discarded values if it was previously discarded
+    removeDiscardedValue(value.id);
 }
 
 /**
- * Remove a value from localStorage
+ * Remove a value from localStorage and add to discarded values
  * @param {string} valueId - The ID of the value to remove
+ * @param {Object} value - The full value object (needed for discarding)
  */
-function removeValue(valueId) {
+function removeValue(valueId, value) {
+    // Remove from saved values
     const savedValues = getSavedValues();
     const updatedValues = savedValues.filter(value => value.id !== valueId);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedValues));
+    localStorage.setItem(SAVED_VALUES_KEY, JSON.stringify(updatedValues));
+    
+    // Add to discarded values if value object is provided
+    if (value) {
+        discardValue(value);
+    }
 }
 
 /**
@@ -30,7 +41,7 @@ function removeValue(valueId) {
  * @returns {Array} - Array of saved value objects
  */
 function getSavedValues() {
-    const savedValues = localStorage.getItem(STORAGE_KEY);
+    const savedValues = localStorage.getItem(SAVED_VALUES_KEY);
     return savedValues ? JSON.parse(savedValues) : [];
 }
 
@@ -38,8 +49,66 @@ function getSavedValues() {
  * Clear all saved values from localStorage
  */
 function clearSavedValues() {
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(SAVED_VALUES_KEY);
+}
+
+/**
+ * Add a value to discarded values in localStorage
+ * @param {Object} value - The value object to discard
+ */
+function discardValue(value) {
+    const discardedValues = getDiscardedValues();
+    
+    // Check if the value is already discarded
+    if (!discardedValues.some(discarded => discarded.id === value.id)) {
+        discardedValues.push(value);
+        localStorage.setItem(DISCARDED_VALUES_KEY, JSON.stringify(discardedValues));
+    }
+}
+
+/**
+ * Remove a value from discarded values
+ * @param {string} valueId - The ID of the value to remove from discarded
+ */
+function removeDiscardedValue(valueId) {
+    const discardedValues = getDiscardedValues();
+    const updatedValues = discardedValues.filter(value => value.id !== valueId);
+    localStorage.setItem(DISCARDED_VALUES_KEY, JSON.stringify(updatedValues));
+}
+
+/**
+ * Get all discarded values from localStorage
+ * @returns {Array} - Array of discarded value objects
+ */
+function getDiscardedValues() {
+    const discardedValues = localStorage.getItem(DISCARDED_VALUES_KEY);
+    return discardedValues ? JSON.parse(discardedValues) : [];
+}
+
+/**
+ * Clear all discarded values from localStorage
+ */
+function clearDiscardedValues() {
+    localStorage.removeItem(DISCARDED_VALUES_KEY);
+}
+
+/**
+ * Reset all values (both saved and discarded)
+ */
+function resetAllValues() {
+    clearSavedValues();
+    clearDiscardedValues();
 }
 
 // Export the functions
-export { saveValue, removeValue, getSavedValues, clearSavedValues };
+export { 
+    saveValue, 
+    removeValue, 
+    getSavedValues, 
+    clearSavedValues,
+    discardValue,
+    removeDiscardedValue,
+    getDiscardedValues,
+    clearDiscardedValues,
+    resetAllValues
+};
