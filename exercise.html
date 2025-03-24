@@ -9,6 +9,79 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Intro Popup Styles */
+        .intro-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        
+        .popup-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .popup-content h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .popup-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        
+        .popup-content .btn {
+            margin-top: 1rem;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Discard Counter Styles */
+        .discard-counter {
+            text-align: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        /* Discarded Card Styles */
+        .card.discarded .card-front {
+            background-color: #aaaaaa !important;
+            position: relative;
+        }
+        
+        .card.discarded .card-front::before,
+        .card.discarded .card-front::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(255, 0, 0, 0.7);
+            top: 50%;
+            left: 0;
+            transform: rotate(45deg);
+        }
+        
+        .card.discarded .card-front::after {
+            transform: rotate(-45deg);
+        }
+        
         /* Exercise page specific styles */
         .exercise-page {
             max-width: 100%;
@@ -309,10 +382,21 @@
     </style>
 </head>
 <body>
+    <div class="intro-popup" id="intro-popup">
+        <div class="popup-content">
+            <h2>Welcome to Your Inner Compass</h2>
+            <p>This is the first stage of the exercise. You will see 100 value cards. You need to eliminate 50 cards that don't resonate with you. Doing so will take you to the next stages, where in the very end you will have only 5 cards, the most important values.</p>
+            <p>If you build your day around these values you will have more fulfilling life. This tool will teach you how to do so.</p>
+            <button id="begin-btn" class="btn primary-btn">Begin Exercise</button>
+        </div>
+    </div>
+
     <div class="container exercise-page">
         <h1>Your Inner Compass</h1>
         <h2>Discover Your Values</h2>
         <p class="exercise-instructions">Please select the values that resonate with you, the values color corresponds to the category they belong to.</p>
+        
+        <div id="discard-counter" class="discard-counter">0 out of 50</div>
         
         <div id="cards-container" class="cards-container">
             <!-- Cards will be dynamically generated here -->

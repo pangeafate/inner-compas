@@ -3,7 +3,8 @@ import { valuesData, getAllValues } from './data.js';
 import { saveValue, removeValue, getSavedValues, clearSavedValues } from './storage.js';
 
 // Constants
-const TOTAL_VALUES = 30; // Total number of values to select
+const TOTAL_VALUES = 100; // Total number of values to select
+const DISCARD_TARGET = 50; // Number of cards to discard before moving to stage 2
 
 /**
  * Adjust font size based on text length
@@ -21,11 +22,12 @@ function adjustFontSizeForText(element, text) {
 }
 
 /**
- * Show a notification with the number of saved values
+ * Show a notification with the number of discarded values
  */
-function showSaveNotification() {
+function showDiscardNotification() {
+    const allValues = getAllValues();
     const savedValues = getSavedValues();
-    const count = savedValues.length;
+    const discardedCount = allValues.length - savedValues.length;
     
     // Create notification element if it doesn't exist
     let notification = document.querySelector('.save-notification');
@@ -36,7 +38,7 @@ function showSaveNotification() {
     }
     
     // Set the notification text
-    notification.textContent = `${count} out of ${TOTAL_VALUES} selected`;
+    notification.textContent = `${discardedCount} out of ${DISCARD_TARGET} discarded`;
     
     // Show the notification
     notification.classList.add('show');
@@ -52,6 +54,35 @@ function showSaveNotification() {
             }
         }, 500);
     }, 1500);
+    
+    // Check if we've reached the discard target
+    if (discardedCount >= DISCARD_TARGET) {
+        // Wait for the notification to disappear before redirecting
+        setTimeout(() => {
+            window.location.href = 'exercise2.html';
+        }, 2000);
+    }
+}
+
+/**
+ * Update the discard counter on the exercise page
+ */
+function updateDiscardCounter() {
+    const discardCounter = document.getElementById('discard-counter');
+    if (discardCounter) {
+        const allValues = getAllValues();
+        const savedValues = getSavedValues();
+        const discardedCount = allValues.length - savedValues.length;
+        
+        discardCounter.textContent = `${discardedCount} out of ${DISCARD_TARGET}`;
+        
+        // Change color based on progress
+        if (discardedCount >= DISCARD_TARGET) {
+            discardCounter.style.color = '#18392B'; // Dark green when target reached
+        } else {
+            discardCounter.style.color = '#4a6fa5'; // Default color
+        }
+    }
 }
 
 // Initialize the application when DOM is fully loaded
@@ -82,11 +113,31 @@ function initExercisePage() {
     console.log('Exercise page initialized');
     
     // Get DOM elements
+    const introPopup = document.getElementById('intro-popup');
+    const beginBtn = document.getElementById('begin-btn');
     const cardsContainer = document.getElementById('cards-container');
     const purposeBtn = document.getElementById('purpose-btn');
     const resetBtn = document.getElementById('reset-btn');
     const stage2Btn = document.getElementById('stage2-btn');
     const valuesBtn = document.getElementById('values-btn');
+    
+    // Show intro popup
+    if (introPopup) {
+        // Hide the main content
+        document.querySelector('.container').style.display = 'none';
+        
+        // Begin button click handler
+        beginBtn.addEventListener('click', () => {
+            // Hide the popup
+            introPopup.style.display = 'none';
+            
+            // Show the main content
+            document.querySelector('.container').style.display = 'block';
+            
+            // Initialize the discard counter
+            updateDiscardCounter();
+        });
+    }
     
     // Set up navigation buttons
     purposeBtn.addEventListener('click', () => {
@@ -109,6 +160,9 @@ function initExercisePage() {
     
     // Create and render the cards grid
     createCardsGrid();
+    
+    // Initialize the discard counter
+    updateDiscardCounter();
 }
 
 // Initialize the Exercise Stage 2 page
@@ -186,21 +240,22 @@ function createCardsGrid() {
     });
 }
 
-    // Create a single card element
+// Create a single card element
 function createCard(value) {
     const savedValues = getSavedValues();
     const isSaved = savedValues.some(saved => saved.id === value.id);
+    const isDiscarded = !isSaved;
     
     // Create card elements
     const card = document.createElement('div');
-    card.className = `card ${isSaved ? 'saved' : ''}`;
+    card.className = `card ${isSaved ? 'saved' : ''} ${isDiscarded ? 'discarded' : ''}`;
     card.dataset.id = value.id;
     card.dataset.categoryId = value.categoryId;
     
     // Front of the card
     const cardFront = document.createElement('div');
     cardFront.className = 'card-front';
-    cardFront.style.backgroundColor = isSaved ? '#ffb302' : value.categoryColor;
+    cardFront.style.backgroundColor = isDiscarded ? '#aaaaaa' : value.categoryColor;
     cardFront.textContent = value.name;
     
     // Adjust font size based on text length
@@ -317,12 +372,13 @@ function createCard(value) {
         // Save the value
         saveValue(value);
         card.classList.add('saved');
+        card.classList.remove('discarded');
         
-        // Change the card front color to #ffb302
-        cardFront.style.backgroundColor = '#ffb302';
+        // Change the card front color to category color
+        cardFront.style.backgroundColor = value.categoryColor;
         
-        // Show the save notification
-        showSaveNotification();
+        // Update the discard counter
+        updateDiscardCounter();
         
         // Close the card
         setTimeout(() => {
@@ -337,9 +393,16 @@ function createCard(value) {
         // Remove the value
         removeValue(value.id);
         card.classList.remove('saved');
+        card.classList.add('discarded');
         
-        // Reset the card front color to the original category color
-        cardFront.style.backgroundColor = value.categoryColor;
+        // Change the card front color to gray
+        cardFront.style.backgroundColor = '#aaaaaa';
+        
+        // Update the discard counter
+        updateDiscardCounter();
+        
+        // Show the discard notification
+        showDiscardNotification();
         
         // Close the card
         setTimeout(() => {
@@ -431,7 +494,7 @@ function renderSavedValuesByCategory() {
     });
 }
 
-// Create the grid of cards for the Exercise Stage 2 page (only saved values)
+// Create the grid of cards for the Exercise Stage 2 page (only non-discarded values)
 function createSavedCardsGrid() {
     const cardsContainer = document.getElementById('cards-container');
     const allValues = getAllValues();
@@ -452,21 +515,13 @@ function createSavedCardsGrid() {
         return;
     }
     
-    // Add discard counter
-    const discardCounter = document.createElement('div');
-    discardCounter.id = 'discard-counter';
-    discardCounter.style.textAlign = 'center';
-    discardCounter.style.padding = '1rem';
-    discardCounter.style.marginBottom = '1rem';
-    discardCounter.style.fontSize = '1.2rem';
-    discardCounter.style.fontWeight = 'bold';
-    discardCounter.style.color = savedValues.length > 5 ? '#5E1914' : '#18392B';
-    
-    const needToDiscard = Math.max(0, savedValues.length - 5);
-    discardCounter.textContent = `Need to discard ${needToDiscard} values`;
-    
-    // Insert counter before the cards container
-    cardsContainer.parentNode.insertBefore(discardCounter, cardsContainer);
+    // Update discard counter
+    const discardCounter = document.getElementById('discard-counter');
+    if (discardCounter) {
+        const needToDiscard = Math.max(0, savedValues.length - 5);
+        discardCounter.textContent = `Need to discard ${needToDiscard} values`;
+        discardCounter.style.color = savedValues.length > 5 ? '#5E1914' : '#18392B';
+    }
     
     // Find the saved value objects from allValues
     const savedValueObjects = allValues.filter(value => 
@@ -654,17 +709,6 @@ function createCardForStage2(value) {
     });
     
     return card;
-}
-
-// Update the discard counter
-function updateDiscardCounter() {
-    const discardCounter = document.getElementById('discard-counter');
-    if (discardCounter) {
-        const savedValues = getSavedValues();
-        const needToDiscard = Math.max(0, savedValues.length - 5);
-        discardCounter.textContent = `Need to discard ${needToDiscard} values`;
-        discardCounter.style.color = savedValues.length > 5 ? '#5E1914' : '#18392B';
-    }
 }
 
 // Utility function to shuffle an array (Fisher-Yates algorithm)
