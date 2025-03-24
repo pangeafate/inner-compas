@@ -542,11 +542,12 @@ function renderSavedValuesByCategory() {
     });
 }
 
-// Create the grid of cards for the Exercise Stage 2 page (only non-discarded values)
+// Create the grid of cards for the Exercise Stage 2 page (all non-discarded values)
 function createSavedCardsGrid() {
     const cardsContainer = document.getElementById('cards-container');
     const allValues = getAllValues();
     const savedValues = getSavedValues();
+    const discardedValues = getDiscardedValues();
     
     // Clear the container
     cardsContainer.innerHTML = '';
@@ -571,13 +572,13 @@ function createSavedCardsGrid() {
         discardCounter.style.color = savedValues.length > 5 ? '#5E1914' : '#18392B';
     }
     
-    // Find the saved value objects from allValues
-    const savedValueObjects = allValues.filter(value => 
-        savedValues.some(saved => saved.id === value.id)
+    // Find all non-discarded value objects from allValues
+    const nonDiscardedValueObjects = allValues.filter(value => 
+        !discardedValues.some(discarded => discarded.id === value.id)
     );
     
     // Create cards and add them to the container
-    savedValueObjects.forEach(value => {
+    nonDiscardedValueObjects.forEach(value => {
         const card = createCardForStage2(value);
         cardsContainer.appendChild(card);
     });
