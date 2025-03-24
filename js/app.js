@@ -395,7 +395,8 @@ function createCard(value) {
     
     // Click to flip the card
     card.addEventListener('click', (e) => {
-        if (!isFlipped && e.target !== keepBtn && e.target !== discardBtn) {
+        // Prevent flipping if the card is discarded
+        if (!isFlipped && e.target !== keepBtn && e.target !== discardBtn && !isDiscarded) {
             // Create overlay
             createOverlay();
             
@@ -695,7 +696,8 @@ function createCardForStage2(value) {
     
     // Click to flip the card
     card.addEventListener('click', (e) => {
-        if (!isFlipped && e.target !== keepBtn && e.target !== discardBtn) {
+        // Prevent flipping if the card is discarded
+        if (!isFlipped && e.target !== keepBtn && e.target !== discardBtn && !isDiscarded) {
             // Create overlay
             createOverlay();
             
