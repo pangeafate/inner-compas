@@ -25,9 +25,10 @@ function adjustFontSizeForText(element, text) {
  * Show a notification with the number of discarded values
  */
 function showDiscardNotification() {
-    const allValues = getAllValues();
     const savedValues = getSavedValues();
-    const discardedCount = allValues.length - savedValues.length;
+    // Calculate discarded count based on saved values
+    // If no values have been saved yet, assume 0 discarded
+    const discardedCount = savedValues.length > 0 ? getAllValues().length - savedValues.length : 0;
     
     // Create notification element if it doesn't exist
     let notification = document.querySelector('.save-notification');
@@ -70,9 +71,10 @@ function showDiscardNotification() {
 function updateDiscardCounter() {
     const discardCounter = document.getElementById('discard-counter');
     if (discardCounter) {
-        const allValues = getAllValues();
         const savedValues = getSavedValues();
-        const discardedCount = allValues.length - savedValues.length;
+        // Calculate discarded count based on saved values
+        // If no values have been saved yet, assume 0 discarded
+        const discardedCount = savedValues.length > 0 ? getAllValues().length - savedValues.length : 0;
         
         discardCounter.textContent = `${discardedCount} out of ${DISCARD_TARGET}`;
         
@@ -244,7 +246,7 @@ function createCardsGrid() {
 function createCard(value) {
     const savedValues = getSavedValues();
     const isSaved = savedValues.some(saved => saved.id === value.id);
-    const isDiscarded = !isSaved;
+    const isDiscarded = !isSaved && savedValues.length > 0; // Only mark as discarded if explicitly discarded
     
     // Create card elements
     const card = document.createElement('div');

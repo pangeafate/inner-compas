@@ -60,6 +60,28 @@
             color: var(--primary-color);
         }
         
+        /* Save Notification Styles */
+        .save-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1.5rem 3rem;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .save-notification.show {
+            opacity: 1;
+        }
+        
         /* Discarded Card Styles */
         .card.discarded .card-front {
             background-color: #aaaaaa !important;
@@ -72,7 +94,7 @@
             position: absolute;
             width: 100%;
             height: 2px;
-            background-color: rgba(255, 0, 0, 0.7);
+            background-color: rgba(51, 51, 51, 0.7); /* Dark gray color */
             top: 50%;
             left: 0;
             transform: rotate(45deg);
@@ -161,13 +183,14 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) !important;
             z-index: 1000;
             width: 400px; /* Fixed width for laptops */
             height: auto;
             min-height: 450px; /* Increased minimum height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.4s ease;
+            transition: all 0.4s ease;
+            margin: 0;
         }
         
         .card.flipped .card-front {
