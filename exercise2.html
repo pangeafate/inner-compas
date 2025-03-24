@@ -166,20 +166,16 @@
         
         .card.flipped {
             position: fixed;
-            top: 50vh; /* Use viewport height units */
-            left: 50%;
-            transform: translate(-50%, -50%) !important;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
             z-index: 1000;
             width: 400px; /* Fixed width for laptops */
-            height: auto;
-            min-height: 450px; /* Increased minimum height */
+            height: 500px; /* Fixed height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-            margin: 0;
-            display: flex; /* Use flexbox for better centering */
-            flex-direction: column;
-            overflow: auto; /* Add scrolling if needed */
-            max-height: 80vh; /* Limit height to 80% of viewport height */
+            transition: none; /* Remove animation */
         }
         
         /* Special styling for discarded cards when flipped */
@@ -202,19 +198,19 @@
         }
         
         .card.flipped .card-front {
-            transform: rotateY(180deg);
+            display: none; /* Hide front completely */
         }
         
         .card.flipped .card-back {
-            transform: rotateY(0);
+            transform: none; /* Remove transform */
             height: 100%;
-            overflow: auto; /* Changed from visible to auto to allow scrolling */
+            overflow: visible; /* No scrolling */
             padding: 20px;
-            position: relative; /* Added for absolute positioning of children */
-            display: flex;
-            flex-direction: column;
+            position: static; /* Normal positioning */
+            display: block;
             width: 100%; /* Ensure full width */
             box-sizing: border-box; /* Include padding in width calculation */
+            backface-visibility: visible; /* Make sure it's visible */
         }
         
         /* Overlay for when a card is flipped */
