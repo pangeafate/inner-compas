@@ -371,6 +371,7 @@ function createCard(value) {
     function closeCard() {
         if (isFlipped) {
             card.classList.remove('flipped');
+            card.classList.remove('discarded-flipped'); // Remove the discarded-flipped class
             isFlipped = false;
             
             // Reset any inline styles that might affect positioning
@@ -402,6 +403,12 @@ function createCard(value) {
             
             // Flip the card
             card.classList.add('flipped');
+            
+            // Add special class for discarded cards
+            if (isDiscarded) {
+                card.classList.add('discarded-flipped');
+            }
+            
             isFlipped = true;
             
             // Prevent event from bubbling to overlay
@@ -673,6 +680,7 @@ function createCardForStage2(value) {
     function closeCard() {
         if (isFlipped) {
             card.classList.remove('flipped');
+            card.classList.remove('discarded-flipped'); // Remove the discarded-flipped class
             isFlipped = false;
             
             // Reset any inline styles that might affect positioning
@@ -704,6 +712,12 @@ function createCardForStage2(value) {
             
             // Flip the card
             card.classList.add('flipped');
+            
+            // Add special class for discarded cards
+            if (isDiscarded) {
+                card.classList.add('discarded-flipped');
+            }
+            
             isFlipped = true;
             
             // Prevent event from bubbling to overlay

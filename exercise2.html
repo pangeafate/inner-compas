@@ -178,6 +178,25 @@
             margin: 0;
         }
         
+        /* Special styling for discarded cards when flipped */
+        .card.discarded-flipped {
+            box-shadow: 0 10px 30px rgba(170, 170, 170, 0.5) !important;
+        }
+        
+        .card.discarded-flipped .card-back {
+            background-color: #f8f8f8 !important; /* Lighter background for discarded cards */
+            border: 2px solid #aaaaaa;
+        }
+        
+        .card.discarded-flipped .card-value-name {
+            color: #777777; /* Darker gray for text */
+        }
+        
+        .card.discarded-flipped .card-description {
+            color: #777777; /* Darker gray for text */
+            font-style: italic;
+        }
+        
         .card.flipped .card-front {
             transform: rotateY(180deg);
         }
