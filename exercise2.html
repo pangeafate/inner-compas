@@ -166,7 +166,7 @@
         
         .card.flipped {
             position: fixed;
-            top: 50%;
+            top: 50vh; /* Use viewport height units */
             left: 50%;
             transform: translate(-50%, -50%) !important;
             z-index: 1000;
@@ -176,6 +176,10 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
             margin: 0;
+            display: flex; /* Use flexbox for better centering */
+            flex-direction: column;
+            overflow: auto; /* Add scrolling if needed */
+            max-height: 80vh; /* Limit height to 80% of viewport height */
         }
         
         /* Special styling for discarded cards when flipped */
@@ -204,11 +208,13 @@
         .card.flipped .card-back {
             transform: rotateY(0);
             height: 100%;
-            overflow: visible;
+            overflow: auto; /* Changed from visible to auto to allow scrolling */
             padding: 20px;
             position: relative; /* Added for absolute positioning of children */
             display: flex;
             flex-direction: column;
+            width: 100%; /* Ensure full width */
+            box-sizing: border-box; /* Include padding in width calculation */
         }
         
         /* Overlay for when a card is flipped */
