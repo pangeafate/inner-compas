@@ -70,7 +70,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: rgba(51, 51, 51, 0.7); /* Dark gray color */
+            background-color: rgba(51, 51, 51, 0.4); /* More transparent dark gray */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -133,7 +133,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.4s ease;
+            transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
@@ -173,7 +173,7 @@
             height: auto;
             min-height: 450px; /* Increased minimum height */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
             margin: 0;
         }
         
