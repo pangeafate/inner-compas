@@ -20,20 +20,14 @@ function saveValue(value) {
 }
 
 /**
- * Remove a value from localStorage and add to discarded values
+ * Remove a value from localStorage
  * @param {string} valueId - The ID of the value to remove
- * @param {Object} value - The full value object (needed for discarding)
  */
-function removeValue(valueId, value) {
+function removeValue(valueId) {
     // Remove from saved values
     const savedValues = getSavedValues();
     const updatedValues = savedValues.filter(value => value.id !== valueId);
     localStorage.setItem(SAVED_VALUES_KEY, JSON.stringify(updatedValues));
-    
-    // Add to discarded values if value object is provided
-    if (value) {
-        discardValue(value);
-    }
 }
 
 /**
