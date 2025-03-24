@@ -431,8 +431,7 @@ function createCard(value) {
         // Update the discard counter
         updateDiscardCounter();
         
-        // Show the selected values notification
-        showSelectedNotification();
+        // Removed the selected values notification
         
         // Close the card
         setTimeout(() => {
@@ -740,8 +739,7 @@ function createCardForStage2(value) {
         // Update the discard counter
         updateDiscardCounter();
         
-        // Show the selected values notification
-        showSelectedNotification();
+        // Removed the selected values notification
         
         // Close the card
         setTimeout(() => {
