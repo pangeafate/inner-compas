@@ -578,13 +578,9 @@ function createSavedCardsGrid() {
         discardCounter.style.color = savedValues.length > 5 ? '#5E1914' : '#18392B';
     }
     
-    // Find all non-discarded value objects from allValues
-    const nonDiscardedValueObjects = allValues.filter(value => 
-        !discardedValues.some(discarded => discarded.id === value.id)
-    );
-    
+    // Show all values in stage 2, including discarded ones
     // Create cards and add them to the container
-    nonDiscardedValueObjects.forEach(value => {
+    allValues.forEach(value => {
         const card = createCardForStage2(value);
         cardsContainer.appendChild(card);
     });
