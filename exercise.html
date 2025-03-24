@@ -105,6 +105,11 @@
         }
         
         /* Discarded Card Styles */
+        .card.discarded {
+            pointer-events: none; /* Prevent interaction with discarded cards */
+            cursor: default;
+        }
+        
         .card.discarded .card-front {
             background-color: #aaaaaa !important;
             position: relative;
