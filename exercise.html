@@ -198,14 +198,14 @@
       text-align: center;
       padding: 6px;
       font-size: clamp(1rem, 2vw, 1.5rem);
-      overflow: hidden;
+      overflow-wrap: normal;
       display: flex;
       align-items: center;
       justify-content: center;
-      word-break: break-word;
+      word-break: normal;
       white-space: normal;
       line-height: 1.1;
-      hyphens: auto;
+      hyphens: none;
     }
     
     .card-back {
@@ -505,4 +505,18 @@
   
   <script type="module" src="js/app.js"></script>
 </body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const cardFronts = document.querySelectorAll('.card-front');
+    cardFronts.forEach(card => {
+      const text = card.textContent.trim();
+      const words = text.split(/\s+/);
+      if (words.length === 2) {
+        card.innerHTML = `<span>${words[0]}</span><span>${words[1]}</span>`;
+      }
+    });
+  });
+</script>
+
 </html>

@@ -30,6 +30,10 @@ body {
     line-height: 1.6;
 }
 
+.card-front span {
+    display: block;
+  }
+  
 .container {
     max-width: 1200px;
     margin: 0 auto;
