@@ -154,7 +154,7 @@
     
     .cards-container {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
       gap: 10px;
       margin: 2rem auto;
       width: 95%;
@@ -197,14 +197,15 @@
       font-weight: 600;
       text-align: center;
       padding: 6px;
-      font-size: clamp(0.7rem, 1.8vw, 1rem);
+      font-size: clamp(0.6rem, 1.5vw, 0.9rem);
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      word-break: normal;
+      word-break: break-word;
       white-space: normal;
       line-height: 1.1;
+      hyphens: auto;
     }
     
     .card-back {
@@ -380,14 +381,14 @@
     /* Mobile Responsive Styles */
     @media (max-width: 768px) {
       .cards-container {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 8px;
         width: 98%;
       }
       
       .card-front {
         padding: 4px;
-        font-size: clamp(0.6rem, 2vw, 0.9rem);
+        font-size: clamp(0.55rem, 1.8vw, 0.8rem);
       }
       
       .buttons-container {
@@ -409,14 +410,13 @@
     /* iPhone-Specific Styles */
     @media screen and (max-width: 480px) {
       .cards-container {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 6px;
         width: calc(100% - 20px);
         margin: 1rem auto;
       }
       
       .card-front {
-        font-size: clamp(0.6rem, 3vw, 0.8rem);
         padding: 3px;
       }
       
