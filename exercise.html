@@ -157,7 +157,8 @@
       grid-template-columns: repeat(10, 1fr);
       gap: 10px;
       margin: 2rem auto;
-      max-width: 90%;
+      width: 95%;
+      max-width: 1400px;
       justify-content: center;
     }
     
@@ -195,14 +196,15 @@
       color: white;
       font-weight: 600;
       text-align: center;
-      padding: 10px;
-      font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+      padding: 6px;
+      font-size: clamp(0.7rem, 1.8vw, 1rem);
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       word-break: normal;
       white-space: normal;
+      line-height: 1.1;
     }
     
     .card-back {
@@ -378,12 +380,14 @@
     /* Mobile Responsive Styles */
     @media (max-width: 768px) {
       .cards-container {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        width: 98%;
       }
       
       .card-front {
-        padding: 6px;
+        padding: 4px;
+        font-size: clamp(0.6rem, 2vw, 0.9rem);
       }
       
       .buttons-container {
@@ -407,6 +411,13 @@
       .cards-container {
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
+        width: calc(100% - 20px);
+        margin: 1rem auto;
+      }
+      
+      .card-front {
+        font-size: clamp(0.6rem, 3vw, 0.8rem);
+        padding: 3px;
       }
       
       .card.flipped {

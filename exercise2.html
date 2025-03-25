@@ -106,7 +106,8 @@
       grid-template-columns: repeat(10, 1fr);
       gap: 10px;
       margin: 2rem auto;
-      max-width: 90%;
+      width: 95%;
+      max-width: 1400px;
       justify-content: center;
     }
         
@@ -143,14 +144,15 @@
             color: white;
             font-weight: 600;
             text-align: center;
-            padding: 10px;
-            font-size: clamp(0.8rem, 2.5vw, 1.2rem); /* Increased responsive font size */
+            padding: 6px;
+            font-size: clamp(0.7rem, 1.8vw, 1rem);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            word-break: normal; /* Don't break words */
-            white-space: normal; /* Allow text to wrap to next line */
+            word-break: normal;
+            white-space: normal;
+            line-height: 1.1;
         }
         
         .card-back {
@@ -327,12 +329,14 @@
         /* Mobile responsive styles */
         @media (max-width: 768px) {
             .cards-container {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 8px;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 10px;
+                width: 98%;
             }
             
             .card-front {
-                padding: 6px;
+                padding: 4px;
+                font-size: clamp(0.6rem, 2vw, 0.9rem);
             }
             
             .buttons-container {
@@ -353,18 +357,30 @@
         
         /* iPhone-specific styles */
         @media screen and (max-width: 480px) {
+            .cards-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                width: calc(100% - 20px);
+                margin: 1rem auto;
+            }
+            
+            .card-front {
+                font-size: clamp(0.6rem, 3vw, 0.8rem);
+                padding: 3px;
+            }
+            
             .card.flipped {
                 position: fixed;
                 top: 50%;
                 left: 50%;
-                width: 85vw; /* 85% of viewport width */
+                width: 85vw;
                 max-width: 280px;
                 transform: translate(-50%, -50%);
                 margin: 0;
-                min-height: auto; /* Remove minimum height constraint */
-                height: 80vh; /* Set height to 80% of viewport height */
+                min-height: auto;
+                height: 80vh;
                 max-height: 450px;
-                overflow: auto; /* Add scrolling if needed */
+                overflow: auto;
             }
             
             .card.flipped .card-back {
