@@ -15,27 +15,6 @@ import {
 const TOTAL_VALUES = 100; // Total number of values to select
 const DISCARD_TARGET = 50; // Number of cards to discard before moving to stage 2
 
-/**
- * Adjust font size based on text length
- * @param {HTMLElement} element - The element to adjust font size for
- * @param {string} text - The text content
- */
-function adjustFontSizeForText(element, text) {
-    // Base font size is set in CSS with clamp()
-    // This function adds additional scaling for very long text
-    if (text.length > 10) {
-        // For longer text, scale down font size further
-        // More aggressive scaling for longer text
-        const scaleFactor = Math.max(0.6, 1 - (text.length - 10) * 0.04);
-        element.style.fontSize = `calc(clamp(0.6rem, 1.5vw, 0.9rem) * ${scaleFactor})`;
-        
-        // For extremely long text, add additional CSS properties to help with display
-        if (text.length > 15) {
-            element.style.lineHeight = '1';
-            element.style.padding = '3px';
-        }
-    }
-}
 
 /**
  * Show a notification with the number of discarded values
