@@ -508,15 +508,17 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const cardFronts = document.querySelectorAll('.card-front');
-    cardFronts.forEach(card => {
-      const text = card.textContent.trim();
-      const words = text.split(/\s+/);
-      if (words.length === 2) {
-        card.innerHTML = `<span>${words[0]}</span><span>${words[1]}</span>`;
-      }
-    });
+  const cardFronts = document.querySelectorAll('.card-front');
+  cardFronts.forEach(card => {
+    const text = card.textContent.trim();
+    const firstSpace = text.indexOf(" ");
+    if (firstSpace !== -1) {
+      const firstPart = text.slice(0, firstSpace);
+      const secondPart = text.slice(firstSpace + 1);
+      card.innerHTML = `<span>${firstPart}</span><span>${secondPart}</span>`;
+    }
   });
+});
 </script>
 
 </html>
