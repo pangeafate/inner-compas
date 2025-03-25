@@ -15,7 +15,6 @@ import {
 const TOTAL_VALUES = 100; // Total number of values to select
 const DISCARD_TARGET = 50; // Number of cards to discard before moving to stage 2
 
-
 /**
  * Show a notification with the number of discarded values
  */
@@ -286,9 +285,7 @@ function createCard(value) {
     cardFront.className = 'card-front';
     cardFront.style.backgroundColor = isDiscarded ? '#aaaaaa' : value.categoryColor;
     cardFront.textContent = value.name;
-    
-    // Adjust font size based on text length
-    adjustFontSizeForText(cardFront, value.name);
+    // Removed dynamic font adjustment; font-size is handled via CSS
     
     // Back of the card
     const cardBack = document.createElement('div');
@@ -416,8 +413,6 @@ function createCard(value) {
         
         // Update the discard counter
         updateDiscardCounter();
-        
-        // Removed the selected values notification
         
         // Close the card
         setTimeout(() => {
@@ -588,11 +583,9 @@ function createCardForStage2(value) {
     // Front of the card
     const cardFront = document.createElement('div');
     cardFront.className = 'card-front';
-    cardFront.style.backgroundColor = isSaved ? value.categoryColor : '#aaaaaa'; // Original color or gray if discarded
+    cardFront.style.backgroundColor = isSaved ? value.categoryColor : '#aaaaaa';
     cardFront.textContent = value.name;
-    
-    // Adjust font size based on text length
-    adjustFontSizeForText(cardFront, value.name);
+    // Removed dynamic font adjustment; font-size is handled via CSS
     
     // Back of the card
     const cardBack = document.createElement('div');
@@ -661,19 +654,15 @@ function createCardForStage2(value) {
     function closeCard() {
         if (isFlipped) {
             card.classList.remove('flipped');
-            card.classList.remove('discarded-flipped'); // Remove the discarded-flipped class
+            card.classList.remove('discarded-flipped');
             isFlipped = false;
             
-            // Reset any inline styles that might affect positioning
             card.style.transform = '';
             card.style.position = '';
             card.style.zIndex = '';
             
-            // Remove overlay with animation
             if (overlay) {
                 overlay.classList.remove('active');
-                
-                // Wait for transition to complete before removing from DOM
                 setTimeout(() => {
                     if (overlay && overlay.parentNode) {
                         document.body.removeChild(overlay);
@@ -686,44 +675,25 @@ function createCardForStage2(value) {
     
     // Click to flip the card
     card.addEventListener('click', (e) => {
-        // Allow flipping for all cards, including discarded ones
         if (!isFlipped && e.target !== keepBtn && e.target !== discardBtn) {
-            // Create overlay
             createOverlay();
-            
-            // Flip the card
             card.classList.add('flipped');
-            
-            // Add special class for discarded cards
             if (isDiscarded) {
                 card.classList.add('discarded-flipped');
             }
-            
             isFlipped = true;
-            
-            // Prevent event from bubbling to overlay
             e.stopPropagation();
         }
     });
     
     // Keep button click handler
     keepBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent event from bubbling
-        
-        // Save the value
+        e.stopPropagation();
         saveValue(value);
         card.classList.add('saved');
         card.classList.remove('discarded');
-        
-        // Change the card front color to category color
         cardFront.style.backgroundColor = value.categoryColor;
-        
-        // Update the discard counter
         updateDiscardCounter();
-        
-        // Removed the selected values notification
-        
-        // Close the card
         setTimeout(() => {
             closeCard();
         }, 200);
@@ -731,27 +701,18 @@ function createCardForStage2(value) {
     
     // Discard button click handler
     discardBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent event from bubbling
-        
-        // Remove the value from saved and add to discarded
+        e.stopPropagation();
         removeValue(value.id);
         discardValue(value);
         card.classList.remove('saved');
         card.classList.add('discarded');
-        
-        // Change the card front color to gray
         cardFront.style.backgroundColor = '#aaaaaa';
-        
-        // Update the discard counter
         updateDiscardCounter();
-        
-        // Close the card
         setTimeout(() => {
             closeCard();
         }, 200);
     });
     
-    // Press Escape key to close card
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && isFlipped) {
             closeCard();
